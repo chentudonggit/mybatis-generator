@@ -1,0 +1,70 @@
+package ${package}.${moduleName}.model;
+
+
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.EqualsAndHashCode;
+    #if(${hasBigDecimal})
+import java.math.BigDecimal;
+#end
+import java.util.Date;
+
+import com.gzedu.ecloud.common.entity.BaseEntity;
+
+/**
+* ${className}
+*/
+ * ${comments}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ * @since $!{since}
+ */
+@Data
+@EqualsAndHashCode(callSuper = false)
+@TableName("${tableName}")
+public class ${className} extends BaseEntity<${className}>
+{
+    #foreach ($column in $columns)
+       #if($column.columnName == $pk.columnName)
+
+    /**
+     * $column.comments
+     */
+    @ApiModelProperty("$column.comments")
+    @TableId(value = "$column.columnName", type=#if($column.attrType == "String") IdType.UUID #else IdType.AUTO #end )
+    private $column.attrType $column.attrname;
+        #else
+           #if($column.attrname != "isDeleted" && $column.attrname != "version"
+           && $column.attrname != "createdBy" && $column.attrname != "createdDt"
+           && $column.attrname != "updatedBy" && $column.attrname != "updatedDt" )
+
+    /**
+     * $column.comments
+     */
+    @ApiModelProperty("$column.comments")
+    @TableField("$column.columnName")
+    private $column.attrType $column.attrname;
+           #end
+       #end
+    #end
+
+    #foreach ($column in $columns)
+      #if($column.columnName != $pk.columnName && $column.attrname != "isDeleted" && $column.attrname != "version"
+      && $column.attrname != "createdBy" && $column.attrname != "createdDt"
+      && $column.attrname != "updatedBy" && $column.attrname != "updatedDt" )
+    public static final String $column.columnNameUpperCase ="$column.attrname";
+      #end
+    #end
+
+    @Override
+    protected Serializable pkVal(){
+    #foreach ($column in $columns)
+      #if($column.columnName == $pk.columnName)
+      return this.$column.attrname;
+      #end
+    #end
+
+    }
+}

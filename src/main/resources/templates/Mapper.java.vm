@@ -1,0 +1,19 @@
+package ${package}.${moduleName}.mapper;
+
+import com.gzedu.ecloud.common.repository.SuperMapper;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * ${className}Mapper
+ * ${comments}
+ * 
+ * @author ${author}
+ * @date ${datetime}
+ * @since $!{since}
+ */
+public interface ${className}Mapper extends SuperMapper<${className}>
+{
+
+}
