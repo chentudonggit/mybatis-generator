@@ -1,7 +1,10 @@
 package com.mybatis.generator.mapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.mybatis.generator.domian.column.Column;
+import com.mybatis.generator.domian.table.Table;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
@@ -13,8 +16,8 @@ import java.util.Map;
  * @date 2020/5/9 11:25 上午
  * @since 1.0
  */
-public interface SysGeneratorMapper
-{
+@Repository
+public interface SysGeneratorMapper {
     /**
      * findAll
      *
@@ -31,13 +34,13 @@ public interface SysGeneratorMapper
      * @param tableName tableName
      * @return Map<String, String>
      */
-    Map<String, String> findByTableName(String tableName);
+    Table findByTableName(String tableName);
 
     /**
      * findByColumns
      *
      * @param tableName tableName
-     * @return List<Map < String, String>>
+     * @return List<Column>
      */
-    List<Map<String, String>> findByColumns(String tableName);
+    List<Column> findByColumns(String tableName);
 }

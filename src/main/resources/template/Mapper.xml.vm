@@ -9,7 +9,7 @@
     <result column="$column.columnName" property="$column.attrname" />
  #end
  #end
-    </resultMap>
+  </resultMap>
 
     <sql id="table_name">
         ${tableName}
@@ -17,12 +17,12 @@
 
     <sql id="base_columns_to">
     #foreach ($column in $columns)
-    $column.columnName AS $column.attrname,
+    $column.asColumnName
     #end
-    </sql>
+</sql>
     <sql id="base_columns">
     #foreach ($column in $columns)
-    $column.columnName,
+    $column.commaColumnName
     #end
-    </sql>
+</sql>
 </mapper>
