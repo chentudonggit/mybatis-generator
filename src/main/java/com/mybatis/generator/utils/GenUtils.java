@@ -72,12 +72,25 @@ public final class GenUtils {
         String className = tableToJava(table.getTableName(), config.getString("tablePrefix"));
         table.setClassName(className);
         table.setClassname(StringUtils.uncapitalize(className));
+
+        //设置velocity资源加载器
+        Properties prop = new Properties();
+        prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+        Velocity.init(prop);
+        String mainPath = config.getString("mainPath");
+        List<String> ignoreColumns = getIgnoreColumns(config);
         //列信息
+        List<Column> ignoreColumnsInfo = new ArrayList<>();
         List<Column> columnsInfo = new ArrayList<>();
         for (Column column : columns) {
-            column.setColumnNameUpperCase(column.getColumnName().toUpperCase());
+            String columnName = column.getColumnName();
+            columnsInfo.add(column);
+            if (!ignoreColumns.contains(columnName)) {
+                ignoreColumnsInfo.add(column);
+            }
+            column.setColumnNameUpperCase(columnName.toUpperCase());
             //列名转换成Java属性名
-            String attrName = columnToJava(column.getColumnName());
+            String attrName = columnToJava(columnName);
             column.setAttrName(attrName);
             column.setAttrname(StringUtils.uncapitalize(attrName));
 
@@ -91,19 +104,12 @@ public final class GenUtils {
             if ("PRI".equalsIgnoreCase(column.getColumnKey()) && Objects.isNull(table.getPk())) {
                 table.setPk(column);
             }
-            columnsInfo.add(column);
         }
         table.setColumns(columnsInfo);
         //没主键，则第一个字段为主键
         if (Objects.isNull(table.getPk())) {
             table.setPk(table.getColumns().get(0));
         }
-
-        //设置velocity资源加载器
-        Properties prop = new Properties();
-        prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-        Velocity.init(prop);
-        String mainPath = config.getString("mainPath");
         mainPath = StringUtils.isBlank(mainPath) ? "io.renren" : mainPath;
         //封装模板数据
         Map<String, Object> map = new HashMap<>();
@@ -114,6 +120,7 @@ public final class GenUtils {
         map.put("classname", table.getClassname());
         map.put("pathName", table.getClassname().toLowerCase());
         map.put("columns", setAs(table.getColumns()));
+        map.put("ignoreColumns", ignoreColumnsInfo);
         map.put("hasBigDecimal", hasBigDecimal);
         map.put("mainPath", mainPath);
         map.put(PACKAGE, config.getString(PACKAGE));
@@ -127,9 +134,7 @@ public final class GenUtils {
         List<String> templates = getTemplates();
         for (String template : templates) {
             //渲染模板
-            try (
-                    StringWriter sw = new StringWriter()
-            ) {
+            try (StringWriter sw = new StringWriter()) {
                 Template tpl = Velocity.getTemplate(template, "UTF-8");
                 tpl.merge(context, sw);
                 //添加到zip
@@ -140,6 +145,19 @@ public final class GenUtils {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * 获取忽略字段
+     *
+     * @param config config
+     * @return List<String>
+     */
+    private static List<String> getIgnoreColumns(Configuration config) {
+        if (Objects.isNull(config)) {
+            return new ArrayList<>(0);
+        }
+        return new ArrayList<>(Arrays.asList(config.getStringArray("ignoreColumns")));
     }
 
     private static List<Column> setAs(List<Column> columns) {

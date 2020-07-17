@@ -26,7 +26,7 @@ import com.gzedu.ecloud.common.entity.BaseEntity;
 @TableName("${tableName}")
 public class ${className} extends BaseEntity<${className}>
 {
-    #foreach ($column in $columns)
+    #foreach ($column in $ignoreColumns)
        #if($column.columnName == $pk.columnName)
 
     /**
@@ -36,9 +36,7 @@ public class ${className} extends BaseEntity<${className}>
     @TableId(value = "$column.columnName", type=#if($column.attrType == "String") IdType.UUID #else IdType.AUTO #end )
     private $column.attrType $column.attrname;
         #else
-           #if($column.attrname != "isDeleted" && $column.attrname != "version"
-           && $column.attrname != "createdBy" && $column.attrname != "createdDt"
-           && $column.attrname != "updatedBy" && $column.attrname != "updatedDt" )
+
 
     /**
      * $column.comments
@@ -46,16 +44,11 @@ public class ${className} extends BaseEntity<${className}>
     @ApiModelProperty("$column.comments")
     @TableField("$column.columnName")
     private $column.attrType $column.attrname;
-           #end
        #end
     #end
 
-    #foreach ($column in $columns)
-      #if($column.columnName != $pk.columnName && $column.attrname != "isDeleted" && $column.attrname != "version"
-      && $column.attrname != "createdBy" && $column.attrname != "createdDt"
-      && $column.attrname != "updatedBy" && $column.attrname != "updatedDt" )
+    #foreach ($column in $ignoreColumns)
     public static final String $column.columnNameUpperCase ="$column.columnName";
-      #end
     #end
 
     @Override
