@@ -14,13 +14,12 @@ import com.gzedu.ecloud.common.entity.BaseEntity;
 
 /**
 * ${className}
+* ${comments}
+*
+* @author $!{author}
+* @date $!{datetime}
+* @since $!{since}
 */
- * ${comments}
- *
- * @author $!{author}
- * @date $!{datetime}
- * @since $!{since}
- */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("${tableName}")
