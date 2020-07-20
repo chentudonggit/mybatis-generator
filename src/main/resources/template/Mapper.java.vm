@@ -13,6 +13,7 @@ import java.util.Map;
  * @date ${datetime}
  * @since $!{since}
  */
+@Repository
 public interface ${className}Mapper extends SuperMapper<${className}>
 {
 
