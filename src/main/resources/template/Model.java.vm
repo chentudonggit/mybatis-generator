@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 #end
 import java.util.Date;
 
-import com.gzedu.ecloud.common.entity.BaseEntity;
 
 /**
 * ${className}
@@ -20,8 +19,6 @@ import com.gzedu.ecloud.common.entity.BaseEntity;
 * @date $!{datetime}
 * @since $!{since}
 */
-@Data
-@EqualsAndHashCode(callSuper = false)
 @TableName("${tableName}")
 public class ${className} extends BaseEntity<${className}>
 {

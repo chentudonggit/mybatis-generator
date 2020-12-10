@@ -9,6 +9,7 @@ import com.gzedu.ecloud.common.service.impl.BaseServiceImpl;
 
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.collections4.MapUtils;
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,8 +22,7 @@ import lombok.extern.slf4j.Slf4j;
  * @date ${datetime}
  * @since ${since}
  */
-@Service
-public class ${className}ServiceImpl extends BaseServiceImpl<${className}Mapper, ${className}> implements ${className}Service
-{
+@RestController
+public class ${className}ServiceImpl implements ${className}Service {
     private static final Logger LOGGER = LoggerFactory.getLogger(${className}ServiceImpl.class);
 }

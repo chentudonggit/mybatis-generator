@@ -3,9 +3,9 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://192.168.1.107:3306/base-data?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
-    username: root
-    password: hm159357
+    url: jdbc:mysql://192.168.3.54:3306/bcwl_base?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+    username: bcwl_base
+    password: bcwl_base+ar5m
     driver-class-name: com.mysql.jdbc.Driver
 
 mybatis-plus:

@@ -11,7 +11,8 @@ import java.util.Map;
  * @date ${datetime}
  * @since ${since}
  */
-public interface ${className}Service extends BaseService<${className}>
+@RequestMapping
+public interface ${className}Service
 {
 
 }
